@@ -6,7 +6,7 @@
 /*   By: matcardo <matcardo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 19:24:57 by matcardo          #+#    #+#             */
-/*   Updated: 2023/04/16 15:58:39 by matcardo         ###   ########.fr       */
+/*   Updated: 2023/04/29 18:38:17 by matcardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct s_philo_env
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				must_eat;
+	suseconds_t		start_time;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	lock_print;
 	pthread_t		*philo_threads;
@@ -46,5 +47,6 @@ int		check_args(int argc, char **argv);
 int		init_philo_env(int argc, char **argv, t_philo_env *philo_env);
 int		ft_atoi(const char *nptr);
 void	*philo_life(void *arg);
+long	get_timestamp(long start_time);
 
 #endif

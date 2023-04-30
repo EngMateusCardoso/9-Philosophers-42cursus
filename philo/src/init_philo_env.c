@@ -6,7 +6,7 @@
 /*   By: matcardo <matcardo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 08:39:56 by matcardo          #+#    #+#             */
-/*   Updated: 2023/04/16 13:39:20 by matcardo         ###   ########.fr       */
+/*   Updated: 2023/04/29 18:25:08 by matcardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,14 @@
 
 int	init_philo_env(int argc, char **argv, t_philo_env *philo_env)
 {
+	struct timeval tv;
+
+	gettimeofday(&tv, NULL);
 	philo_env->philo_nbr = ft_atoi(argv[1]);
 	philo_env->time_to_die = ft_atoi(argv[2]);
 	philo_env->time_to_eat = ft_atoi(argv[3]);
 	philo_env->time_to_sleep = ft_atoi(argv[4]);
+	philo_env->start_time = tv.tv_sec * 1000 + tv.tv_usec / 1000;
 	if (argc == 6)
 		philo_env->must_eat = ft_atoi(argv[5]);
 	else

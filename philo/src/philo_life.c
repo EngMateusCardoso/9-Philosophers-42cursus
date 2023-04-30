@@ -6,7 +6,7 @@
 /*   By: matcardo <matcardo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 12:29:11 by matcardo          #+#    #+#             */
-/*   Updated: 2023/04/29 11:37:01 by matcardo         ###   ########.fr       */
+/*   Updated: 2023/04/29 18:37:29 by matcardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,16 @@ void	take_forks(t_philo *philo)
 		pthread_mutex_lock(philo->left_fork);
 	}
 	pthread_mutex_lock(&(philo->philo_env->lock_print));
-	printf("%d has taken a fork\n", philo->id);
+	printf("%ld %d has taken a fork\n",
+		get_timestamp(philo->philo_env->start_time), philo->id);
 	pthread_mutex_unlock(&(philo->philo_env->lock_print));
 }
 
 void	eating(t_philo *philo)
 {
 	pthread_mutex_lock(&(philo->philo_env->lock_print));
-	printf("%d is eating\n", philo->id);
+	printf("%ld %d is eating\n", get_timestamp(philo->philo_env->start_time),
+		philo->id);
 	pthread_mutex_unlock(&(philo->philo_env->lock_print));
 	usleep(philo->philo_env->time_to_eat * 1000);
 	// philo->last_eat = get_time();
@@ -44,7 +46,8 @@ void	eating(t_philo *philo)
 void	sleeping(t_philo *philo)
 {
 	pthread_mutex_lock(&(philo->philo_env->lock_print));
-	printf("%d is sleeping\n", philo->id);
+	printf("%ld %d is sleeping\n", get_timestamp(philo->philo_env->start_time),
+		philo->id);
 	pthread_mutex_unlock(&(philo->philo_env->lock_print));
 	usleep(philo->philo_env->time_to_sleep * 1000);
 }
@@ -52,7 +55,8 @@ void	sleeping(t_philo *philo)
 void	thinking(t_philo *philo)
 {
 	pthread_mutex_lock(&(philo->philo_env->lock_print));
-	printf("%d is thinking\n", philo->id);
+	printf("%ld %d is thinking\n", get_timestamp(philo->philo_env->start_time),
+		philo->id);
 	pthread_mutex_unlock(&(philo->philo_env->lock_print));
 }
 
