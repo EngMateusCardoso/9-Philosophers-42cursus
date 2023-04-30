@@ -6,7 +6,7 @@
 /*   By: matcardo <matcardo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 12:29:11 by matcardo          #+#    #+#             */
-/*   Updated: 2023/04/29 18:37:29 by matcardo         ###   ########.fr       */
+/*   Updated: 2023/04/30 14:30:28 by matcardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,33 @@
 
 void	take_forks(t_philo *philo)
 {
-	if (philo->id % 2 == 0 && philo->id != philo->philo_env->philo_nbr)
+	if (philo->id % 2 != 0 && philo->id != philo->philo_env->philo_nbr)
 	{
-		pthread_mutex_lock(philo->left_fork);
 		pthread_mutex_lock(philo->right_fork);
+		pthread_mutex_lock(philo->left_fork);
 	}
 	else
 	{
-		pthread_mutex_lock(philo->right_fork);
 		pthread_mutex_lock(philo->left_fork);
+		pthread_mutex_lock(philo->right_fork);
 	}
 	pthread_mutex_lock(&(philo->philo_env->lock_print));
 	printf("%ld %d has taken a fork\n",
-		get_timestamp(philo->philo_env->start_time), philo->id);
+		get_time(philo->philo_env->start_time), philo->id);
 	pthread_mutex_unlock(&(philo->philo_env->lock_print));
 }
 
 void	eating(t_philo *philo)
 {
 	pthread_mutex_lock(&(philo->philo_env->lock_print));
-	printf("%ld %d is eating\n", get_timestamp(philo->philo_env->start_time),
+	printf("%ld %d is eating\n", get_time(philo->philo_env->start_time),
 		philo->id);
 	pthread_mutex_unlock(&(philo->philo_env->lock_print));
-	usleep(philo->philo_env->time_to_eat * 1000);
-	// philo->last_eat = get_time();
+	philo->last_eat = get_time(philo->philo_env->start_time);
+	if (philo->eat_count < philo->philo_env->must_eat)
+		philo->philo_env->eat_count_limit++;
 	philo->eat_count++;
+	usleep(philo->philo_env->time_to_eat);
 	pthread_mutex_unlock(philo->right_fork);
 	pthread_mutex_unlock(philo->left_fork);
 }
@@ -46,16 +48,16 @@ void	eating(t_philo *philo)
 void	sleeping(t_philo *philo)
 {
 	pthread_mutex_lock(&(philo->philo_env->lock_print));
-	printf("%ld %d is sleeping\n", get_timestamp(philo->philo_env->start_time),
+	printf("%ld %d is sleeping\n", get_time(philo->philo_env->start_time),
 		philo->id);
 	pthread_mutex_unlock(&(philo->philo_env->lock_print));
-	usleep(philo->philo_env->time_to_sleep * 1000);
+	usleep(philo->philo_env->time_to_sleep);
 }
 
 void	thinking(t_philo *philo)
 {
 	pthread_mutex_lock(&(philo->philo_env->lock_print));
-	printf("%ld %d is thinking\n", get_timestamp(philo->philo_env->start_time),
+	printf("%ld %d is thinking\n", get_time(philo->philo_env->start_time),
 		philo->id);
 	pthread_mutex_unlock(&(philo->philo_env->lock_print));
 }
