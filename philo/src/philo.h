@@ -6,7 +6,7 @@
 /*   By: matcardo <matcardo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 19:24:57 by matcardo          #+#    #+#             */
-/*   Updated: 2023/04/30 15:29:59 by matcardo         ###   ########.fr       */
+/*   Updated: 2023/05/01 19:26:47 by matcardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ typedef struct s_philo_env
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				must_eat;
-	int				eat_count_limit;
 	long			start_time;
+	int				dead;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	lock_print;
 	pthread_t		*philo_threads;

@@ -6,7 +6,7 @@
 /*   By: matcardo <matcardo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 12:29:11 by matcardo          #+#    #+#             */
-/*   Updated: 2023/04/30 14:30:28 by matcardo         ###   ########.fr       */
+/*   Updated: 2023/05/01 19:23:59 by matcardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	take_forks(t_philo *philo)
 {
-	if (philo->id % 2 != 0 && philo->id != philo->philo_env->philo_nbr)
+	if (philo->id % 2 == 1 && philo->id != philo->philo_env->philo_nbr)
 	{
 		pthread_mutex_lock(philo->right_fork);
 		pthread_mutex_lock(philo->left_fork);
@@ -38,11 +38,10 @@ void	eating(t_philo *philo)
 	pthread_mutex_unlock(&(philo->philo_env->lock_print));
 	philo->last_eat = get_time(philo->philo_env->start_time);
 	if (philo->eat_count < philo->philo_env->must_eat)
-		philo->philo_env->eat_count_limit++;
-	philo->eat_count++;
+		philo->eat_count++;
 	usleep(philo->philo_env->time_to_eat);
-	pthread_mutex_unlock(philo->right_fork);
 	pthread_mutex_unlock(philo->left_fork);
+	pthread_mutex_unlock(philo->right_fork);
 }
 
 void	sleeping(t_philo *philo)

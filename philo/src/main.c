@@ -6,7 +6,7 @@
 /*   By: matcardo <matcardo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 19:25:02 by matcardo          #+#    #+#             */
-/*   Updated: 2023/04/30 15:27:33 by matcardo         ###   ########.fr       */
+/*   Updated: 2023/05/01 19:28:20 by matcardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	init_philo_env(int argc, char **argv, t_philo_env *philo_env)
 		printf("Invalid arguments\n");
 		return (0);
 	}
+	philo_env->dead = 0;
 	return (1);
 }
 
