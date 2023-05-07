@@ -6,22 +6,37 @@
 /*   By: matcardo <matcardo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 15:23:30 by matcardo          #+#    #+#             */
-/*   Updated: 2023/04/30 15:26:26 by matcardo         ###   ########.fr       */
+/*   Updated: 2023/05/06 22:36:32 by matcardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	finish_dinner(t_philo	*philos, t_philo_env *philo_env)
+void	run_philos(t_philo_env *philo_env)
 {
-	int	index;
+	t_philo	*philos;
+
+	philos = malloc(sizeof(t_philo) * philo_env->philo_nbr);
+	init_philosopher(philos, philo_env);
+	run_dinner(philos, philo_env);
+	finish_dinner(philo_env);
+}
+
+void	init_philosopher(t_philo	*philos, t_philo_env *philo_env)
+{
+	int		index;
 
 	index = 0;
 	while (index < philo_env->philo_nbr)
 	{
-		pthread_join(philo_env->philo_threads[index], NULL);
-		printf("Philosopher %d ate %d times\n", philos[index].id, \
-			philos[index].eat_count);
+		philos[index].id = index;
+		philos[index].name = index + 1;
+		philos[index].eat_count = 0;
+		philos[index].last_eat = 0;
+		philos[index].left_fork = &philo_env->forks[index];
+		philos[index].right_fork = &philo_env->forks[(index + 1) \
+			% philo_env->philo_nbr];
+		philos[index].philo_env = philo_env;
 		index++;
 	}
 }
@@ -45,30 +60,15 @@ void	run_dinner(t_philo	*philos, t_philo_env *philo_env)
 	philo_env->thread_monitor = thread_monitor;
 }
 
-void	init_philosopher(t_philo	*philos, t_philo_env *philo_env)
+void	finish_dinner(t_philo_env *philo_env)
 {
-	int		index;
+	int	index;
 
 	index = 0;
 	while (index < philo_env->philo_nbr)
 	{
-		philos[index].id = index + 1;
-		philos[index].eat_count = 0;
-		philos[index].last_eat = 0;
-		philos[index].left_fork = &philo_env->forks[index];
-		philos[index].right_fork = &philo_env->forks[(index + 1) \
-			% philo_env->philo_nbr];
-		philos[index].philo_env = philo_env;
+		pthread_join(philo_env->philo_threads[index], NULL);
 		index++;
 	}
-}
-
-void	run_philos(t_philo_env *philo_env)
-{
-	t_philo	*philos;
-
-	philos = malloc(sizeof(t_philo) * philo_env->philo_nbr);
-	init_philosopher(philos, philo_env);
-	run_dinner(philos, philo_env);
-	finish_dinner(philos, philo_env);
+	pthread_join(philo_env->thread_monitor, NULL);
 }

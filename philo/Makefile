@@ -6,7 +6,7 @@
 #    By: matcardo <matcardo@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/30 19:25:05 by matcardo          #+#    #+#              #
-#    Updated: 2023/03/30 19:25:29 by matcardo         ###   ########.fr        #
+#    Updated: 2023/05/06 16:03:11 by matcardo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ OBJS_DIR		= objs/
 
 RM				= rm -fr
 CC				= gcc
-FLAGS			= -Wall -Wextra -Werror
+FLAGS			= -Wall -Wextra -Werror -pthread
 
 LEAKS 			= valgrind
 LEAKS_FILE		= valgrind-out.txt
