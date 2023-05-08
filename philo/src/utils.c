@@ -6,7 +6,7 @@
 /*   By: matcardo <matcardo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 18:29:54 by matcardo          #+#    #+#             */
-/*   Updated: 2023/05/08 09:57:23 by matcardo         ###   ########.fr       */
+/*   Updated: 2023/05/08 10:19:28 by matcardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_atoi(const char *nptr)
 
 long	get_time(long start_time)
 {
-	struct timeval  tv;
+	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
 	return ((tv.tv_sec * 1000 + tv.tv_usec / 1000) - start_time);

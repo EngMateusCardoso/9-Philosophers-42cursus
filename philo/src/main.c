@@ -6,7 +6,7 @@
 /*   By: matcardo <matcardo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 19:25:02 by matcardo          #+#    #+#             */
-/*   Updated: 2023/05/07 21:47:40 by matcardo         ###   ########.fr       */
+/*   Updated: 2023/05/08 10:19:12 by matcardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	main(int argc, char **argv)
 
 int	init_philo_env(int argc, char **argv, t_philo_env *philo_env)
 {
-	struct timeval tv;
+	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
 	philo_env->philo_nbr = ft_atoi(argv[1]);
