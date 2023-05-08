@@ -6,7 +6,7 @@
 /*   By: matcardo <matcardo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 15:23:30 by matcardo          #+#    #+#             */
-/*   Updated: 2023/05/06 22:36:32 by matcardo         ###   ########.fr       */
+/*   Updated: 2023/05/07 21:36:48 by matcardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,10 @@ void	finish_dinner(t_philo_env *philo_env)
 	int	index;
 
 	index = 0;
+	pthread_join(philo_env->thread_monitor, NULL);
 	while (index < philo_env->philo_nbr)
 	{
 		pthread_join(philo_env->philo_threads[index], NULL);
 		index++;
 	}
-	pthread_join(philo_env->thread_monitor, NULL);
 }
