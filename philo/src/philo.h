@@ -6,7 +6,7 @@
 /*   By: matcardo <matcardo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 19:24:57 by matcardo          #+#    #+#             */
-/*   Updated: 2023/05/06 22:32:43 by matcardo         ###   ########.fr       */
+/*   Updated: 2023/05/08 09:58:12 by matcardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,13 @@ typedef struct s_philo
 int		check_args(int argc, char **argv);
 size_t	ft_strlen(const char *s);
 int		is_number(char *str);
-int		ft_atoi(const char *nptr);
 int		init_philo_env(int argc, char **argv, t_philo_env *philo_env);
 void	init_fork_and_lock_print(t_philo_env *philo_env);
+void	finish_fork_and_lock_print(t_philo_env *philo_env);
 void	run_philos(t_philo_env *philo_env);
-void	init_philosopher(t_philo	*philos, t_philo_env *philo_env);
+void	init_philosopher(t_philo *philos, t_philo_env *philo_env);
 void	run_dinner(t_philo	*philos, t_philo_env *philo_env);
-void	finish_dinner(t_philo_env *philo_env);
+void	finish_dinner(t_philo	*philos, t_philo_env *philo_env);
 void	*philo_life(void *arg);
 void	take_forks(t_philo *philo);
 void	eating(t_philo *philo);
@@ -63,5 +63,7 @@ void	thinking(t_philo *philo);
 void	*monitor(void *arg);
 void	all_philos_ate_enough(t_philo *philos, int i, int *eat_count_sum);
 long	get_time(long start_time);
+int		ft_atoi(const char *nptr);
+void	*one_philo(t_philo	*philo);
 
 #endif

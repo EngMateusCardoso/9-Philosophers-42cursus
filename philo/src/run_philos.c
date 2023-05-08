@@ -6,7 +6,7 @@
 /*   By: matcardo <matcardo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 15:23:30 by matcardo          #+#    #+#             */
-/*   Updated: 2023/05/07 21:36:48 by matcardo         ###   ########.fr       */
+/*   Updated: 2023/05/07 22:10:18 by matcardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	run_philos(t_philo_env *philo_env)
 	philos = malloc(sizeof(t_philo) * philo_env->philo_nbr);
 	init_philosopher(philos, philo_env);
 	run_dinner(philos, philo_env);
-	finish_dinner(philo_env);
+	finish_dinner(philos, philo_env);
 }
 
 void	init_philosopher(t_philo	*philos, t_philo_env *philo_env)
@@ -60,7 +60,7 @@ void	run_dinner(t_philo	*philos, t_philo_env *philo_env)
 	philo_env->thread_monitor = thread_monitor;
 }
 
-void	finish_dinner(t_philo_env *philo_env)
+void	finish_dinner(t_philo	*philos, t_philo_env *philo_env)
 {
 	int	index;
 
@@ -71,4 +71,6 @@ void	finish_dinner(t_philo_env *philo_env)
 		pthread_join(philo_env->philo_threads[index], NULL);
 		index++;
 	}
+	free(philo_env->philo_threads);
+	free(philos);
 }

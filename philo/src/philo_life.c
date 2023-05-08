@@ -6,7 +6,7 @@
 /*   By: matcardo <matcardo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 12:29:11 by matcardo          #+#    #+#             */
-/*   Updated: 2023/05/07 18:29:52 by matcardo         ###   ########.fr       */
+/*   Updated: 2023/05/08 09:52:10 by matcardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	*philo_life(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
+	if (philo->philo_env->philo_nbr == 1)
+		return (one_philo(philo));
 	while (!philo->philo_env->dinner_over)
 	{
 		take_forks(philo);

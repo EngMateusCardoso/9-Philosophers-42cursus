@@ -6,7 +6,7 @@
 /*   By: matcardo <matcardo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 19:25:02 by matcardo          #+#    #+#             */
-/*   Updated: 2023/05/06 22:09:02 by matcardo         ###   ########.fr       */
+/*   Updated: 2023/05/07 21:47:40 by matcardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	main(int argc, char **argv)
 		return (1);
 	init_fork_and_lock_print(&philo_env);
 	run_philos(&philo_env);
+	finish_fork_and_lock_print(&philo_env);
 	write(1, "Dinner is over\n", 15);
 	return (0);
 }
@@ -61,4 +62,18 @@ void	init_fork_and_lock_print(t_philo_env *philo_env)
 		index++;
 	}
 	pthread_mutex_init(&philo_env->lock_print, NULL);
+}
+
+void	finish_fork_and_lock_print(t_philo_env *philo_env)
+{
+	int	index;
+
+	index = 0;
+	while (index < philo_env->philo_nbr)
+	{
+		pthread_mutex_destroy(&philo_env->forks[index]);
+		index++;
+	}
+	pthread_mutex_destroy(&philo_env->lock_print);
+	free(philo_env->forks);
 }

@@ -6,7 +6,7 @@
 #    By: matcardo <matcardo@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/30 19:25:05 by matcardo          #+#    #+#              #
-#    Updated: 2023/05/06 16:03:11 by matcardo         ###   ########.fr        #
+#    Updated: 2023/05/07 23:09:09 by matcardo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,13 +21,7 @@ RM				= rm -fr
 CC				= gcc
 FLAGS			= -Wall -Wextra -Werror -pthread
 
-LEAKS 			= valgrind
-LEAKS_FILE		= valgrind-out.txt
-LF				= --suppressions=readline.supp \
-				--leak-check=full \
-				--track-origins=yes \
-				--show-leak-kinds=all \
-				--log-file=$(LEAKS_FILE)
+LEAKS 			= valgrind --tool=drd
 
 GR	= \033[32;1m
 RE	= \033[31;1m
@@ -54,7 +48,7 @@ norm:
 			norminette ${SRCS} ${HEADER}
 
 leaks:		$(NAME)
-	$(LEAKS) $(LF) ./$(NAME)
+	$(LEAKS) ./$(NAME) 3 600 150 150 2
 	
 clean:
 			$(RM) $(OBJS_DIR)
