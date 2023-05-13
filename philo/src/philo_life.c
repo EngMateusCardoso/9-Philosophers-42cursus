@@ -6,7 +6,7 @@
 /*   By: matcardo <matcardo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 12:29:11 by matcardo          #+#    #+#             */
-/*   Updated: 2023/05/13 10:09:05 by matcardo         ###   ########.fr       */
+/*   Updated: 2023/05/13 14:27:35 by matcardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void	*philo_life(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	if (philo->philo_env->philo_nbr == 1)
+	if (philo->is_only_one)
 		return (one_philo(philo));
-	while (!philo->philo_env->dinner_over)
+	while (!get_dinner_over(philo))
 	{
 		take_forks(philo);
 		eating(philo);
@@ -33,29 +33,33 @@ void	take_forks(t_philo *philo)
 {
 	pthread_mutex_lock(philo->right_fork);
 	pthread_mutex_lock(&(philo->philo_env->lock_print));
-	if (!philo->philo_env->dinner_over)
+	if (!get_dinner_over(philo))
 		printf("%ld %d has taken a fork\n",
-			get_time(philo->philo_env->start_time), philo->name);
+			get_time(philo->philo_env->start_time_thread), philo->name);
 	pthread_mutex_unlock(&(philo->philo_env->lock_print));
 	pthread_mutex_lock(philo->left_fork);
 	pthread_mutex_lock(&(philo->philo_env->lock_print));
-	if (!philo->philo_env->dinner_over)
+	if (!get_dinner_over(philo))
 		printf("%ld %d has taken a fork\n",
-			get_time(philo->philo_env->start_time), philo->name);
+			get_time(philo->philo_env->start_time_thread), philo->name);
 	pthread_mutex_unlock(&(philo->philo_env->lock_print));
 }
 
 void	eating(t_philo *philo)
 {
 	pthread_mutex_lock(&(philo->philo_env->lock_print));
-	if (!philo->philo_env->dinner_over)
-		printf("%ld %d is eating\n", get_time(philo->philo_env->start_time),
-			philo->name);
+	if (!get_dinner_over(philo))
+		printf("%ld %d is eating\n", \
+		get_time(philo->philo_env->start_time_thread), philo->name);
 	pthread_mutex_unlock(&(philo->philo_env->lock_print));
-	philo->last_eat = get_time(philo->philo_env->start_time);
-	if (philo->eat_count < philo->philo_env->must_eat)
+	pthread_mutex_lock(&(philo->lock_last_eat));
+	philo->last_eat = get_time(philo->philo_env->start_time_thread);
+	pthread_mutex_unlock(&(philo->lock_last_eat));
+	pthread_mutex_lock(&(philo->lock_eat_count));
+	if (philo->eat_count < philo->philo_must_eat)
 		philo->eat_count++;
-	usleep(philo->philo_env->time_to_eat * 1000);
+	pthread_mutex_unlock(&(philo->lock_eat_count));
+	usleep(philo->philo_time_to_eat * 1000);
 	pthread_mutex_unlock(philo->right_fork);
 	pthread_mutex_unlock(philo->left_fork);
 }
@@ -63,18 +67,18 @@ void	eating(t_philo *philo)
 void	sleeping(t_philo *philo)
 {
 	pthread_mutex_lock(&(philo->philo_env->lock_print));
-	if (!philo->philo_env->dinner_over)
-		printf("%ld %d is sleeping\n", get_time(philo->philo_env->start_time),
-			philo->name);
+	if (!get_dinner_over(philo))
+		printf("%ld %d is sleeping\n", \
+		get_time(philo->philo_env->start_time_thread), philo->name);
 	pthread_mutex_unlock(&(philo->philo_env->lock_print));
-	usleep(philo->philo_env->time_to_sleep * 1000);
+	usleep(philo->philo_time_to_sleep * 1000);
 }
 
 void	thinking(t_philo *philo)
 {
 	pthread_mutex_lock(&(philo->philo_env->lock_print));
-	if (!philo->philo_env->dinner_over)
-		printf("%ld %d is thinking\n", get_time(philo->philo_env->start_time),
-			philo->name);
+	if (!get_dinner_over(philo))
+		printf("%ld %d is thinking\n", \
+			get_time(philo->philo_env->start_time_thread), philo->name);
 	pthread_mutex_unlock(&(philo->philo_env->lock_print));
 }
