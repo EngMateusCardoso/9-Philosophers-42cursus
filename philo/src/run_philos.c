@@ -6,7 +6,7 @@
 /*   By: matcardo <matcardo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 15:23:30 by matcardo          #+#    #+#             */
-/*   Updated: 2023/05/13 14:27:05 by matcardo         ###   ########.fr       */
+/*   Updated: 2023/05/13 14:44:09 by matcardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	run_dinner(t_philo	*philos, t_philo_env *philo_env)
 		index += 2;
 		if (index >= philo_env->philo_nbr && index % 2 == 1)
 		{
-			usleep(1000);
+			usleep(10000);
 			index = 0;
 		}
 	}
