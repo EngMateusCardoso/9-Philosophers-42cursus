@@ -6,7 +6,7 @@
 /*   By: matcardo <matcardo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 12:29:11 by matcardo          #+#    #+#             */
-/*   Updated: 2023/05/08 09:52:10 by matcardo         ###   ########.fr       */
+/*   Updated: 2023/05/13 10:09:05 by matcardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,16 @@ void	*philo_life(void *arg)
 
 void	take_forks(t_philo *philo)
 {
-	if (philo->id % 2 == 0)
-		usleep(5);
 	pthread_mutex_lock(philo->right_fork);
+	pthread_mutex_lock(&(philo->philo_env->lock_print));
+	if (!philo->philo_env->dinner_over)
+		printf("%ld %d has taken a fork\n",
+			get_time(philo->philo_env->start_time), philo->name);
+	pthread_mutex_unlock(&(philo->philo_env->lock_print));
 	pthread_mutex_lock(philo->left_fork);
 	pthread_mutex_lock(&(philo->philo_env->lock_print));
 	if (!philo->philo_env->dinner_over)
-		printf("%ld %d has taken a fork\n%ld %d has taken a fork\n",
-			get_time(philo->philo_env->start_time), philo->name,
+		printf("%ld %d has taken a fork\n",
 			get_time(philo->philo_env->start_time), philo->name);
 	pthread_mutex_unlock(&(philo->philo_env->lock_print));
 }

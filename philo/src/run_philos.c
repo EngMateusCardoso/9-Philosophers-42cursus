@@ -6,7 +6,7 @@
 /*   By: matcardo <matcardo@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 15:23:30 by matcardo          #+#    #+#             */
-/*   Updated: 2023/05/07 22:10:18 by matcardo         ###   ########.fr       */
+/*   Updated: 2023/05/13 10:12:41 by matcardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,18 @@ void	run_dinner(t_philo	*philos, t_philo_env *philo_env)
 	pthread_t	thread_monitor;
 	int			index;
 
-	index = 0;
+	index = 1;
 	philo_threads = malloc(sizeof(pthread_t) * philo_env->philo_nbr);
 	while (index < philo_env->philo_nbr)
 	{
 		pthread_create(&philo_threads[index], NULL, &philo_life, \
 			&philos[index]);
-		index++;
+		index += 2;
+		if (index >= philo_env->philo_nbr && index % 2 == 1)
+		{
+			usleep(1000);
+			index = 0;
+		}
 	}
 	pthread_create(&thread_monitor, NULL, &monitor, philos);
 	philo_env->philo_threads = philo_threads;
